@@ -1,4 +1,4 @@
-const CACHE_NAME = 'travel-globe-v1.0.0'
+const CACHE_NAME = 'travel-globe-v1.1.0'
 const APP_BASE = '/travel2/'
 const APP_SHELL = [
   APP_BASE,
