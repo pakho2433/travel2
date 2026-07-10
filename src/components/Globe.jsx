@@ -103,8 +103,8 @@ function readSavedProvider(hasGoogleKey) {
 }
 
 export default function Globe({ places, onSelectPlace }) {
-  const [apiKey, setApiKey] = useState(() => ENV_GOOGLE_API_KEY || readSavedApiKey())
-  const [provider, setProvider] = useState(() => readSavedProvider(Boolean(ENV_GOOGLE_API_KEY || readSavedApiKey())))
+  const [apiKey, setApiKey] = useState(() => readSavedApiKey() || ENV_GOOGLE_API_KEY)
+  const [provider, setProvider] = useState(() => readSavedProvider(Boolean(readSavedApiKey() || ENV_GOOGLE_API_KEY)))
   const [googleError, setGoogleError] = useState(null)
 
   const handleGoogleError = useCallback((error) => {
@@ -129,7 +129,7 @@ export default function Globe({ places, onSelectPlace }) {
   function configureGoogleApiKey() {
     const enteredKey = window.prompt(
       '請貼上 Google Maps JavaScript API 金鑰。需要啟用 Maps JavaScript API 及 3D Maps，並限制只允許你的 GitHub Pages 網址使用。',
-      apiKey && !ENV_GOOGLE_API_KEY ? apiKey : ''
+      apiKey
     )
 
     if (!enteredKey?.trim()) return
@@ -149,7 +149,7 @@ export default function Globe({ places, onSelectPlace }) {
     setGoogleError(null)
     setProvider('google')
 
-    if (savedLocally && !ENV_GOOGLE_API_KEY) {
+    if (savedLocally) {
       window.location.reload()
     }
   }
