@@ -1,0 +1,21 @@
+{
+  "name": "Travel Globe / 我的旅行地球儀",
+  "short_name": "旅行地球儀",
+  "description": "在互動式 3D 地球上記錄你去過的地方。",
+  "lang": "zh-Hant",
+  "start_url": "/travel2/",
+  "scope": "/travel2/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#07121f",
+  "theme_color": "#07121f",
+  "categories": ["travel", "lifestyle"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
