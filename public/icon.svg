@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Travel Globe icon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b2337"/>
+      <stop offset="1" stop-color="#07121f"/>
+    </linearGradient>
+    <radialGradient id="earth" cx="35%" cy="25%" r="80%">
+      <stop offset="0" stop-color="#5ff0d6"/>
+      <stop offset="0.48" stop-color="#168da0"/>
+      <stop offset="1" stop-color="#084452"/>
+    </radialGradient>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="158" fill="url(#earth)" stroke="#8cf5e2" stroke-opacity=".45" stroke-width="6"/>
+  <path d="M152 202c36-50 80-80 132-88 10 24 8 48-8 72-18 28-7 49 32 64 27 11 48 30 64 59-28 56-82 95-145 103-2-32-16-55-43-69-35-18-50-46-44-84 4-22 8-41 12-57Z" fill="#91f2c3" opacity=".72"/>
+  <path d="M315 151c38 17 67 46 86 85-21 11-41 12-61 3-26-11-39-30-39-55 0-12 5-23 14-33Z" fill="#b6ffd8" opacity=".62"/>
+  <circle cx="341" cy="188" r="24" fill="#ff7448" filter="url(#glow)"/>
+  <path d="M341 217c-20-23-30-41-30-56a30 30 0 1 1 60 0c0 15-10 33-30 56Z" fill="#ff7448"/>
+  <circle cx="341" cy="161" r="10" fill="#fff4ec"/>
+  <ellipse cx="256" cy="256" rx="158" ry="57" fill="none" stroke="#d4fff5" stroke-opacity=".22" stroke-width="5"/>
+  <ellipse cx="256" cy="256" rx="63" ry="158" fill="none" stroke="#d4fff5" stroke-opacity=".18" stroke-width="5"/>
+</svg>
