@@ -135,9 +135,12 @@ export default function Globe({ places, onSelectPlace }) {
     if (!enteredKey?.trim()) return
 
     const cleanKey = enteredKey.trim()
+    let savedLocally = false
+
     try {
       localStorage.setItem(GOOGLE_KEY_STORAGE, cleanKey)
       localStorage.setItem(GOOGLE_MODE_STORAGE, 'google')
+      savedLocally = true
     } catch {
       // Continue with the in-memory key if storage is unavailable.
     }
@@ -145,6 +148,10 @@ export default function Globe({ places, onSelectPlace }) {
     setApiKey(cleanKey)
     setGoogleError(null)
     setProvider('google')
+
+    if (savedLocally && !ENV_GOOGLE_API_KEY) {
+      window.location.reload()
+    }
   }
 
   const showGoogle = provider === 'google' && apiKey && !googleError
