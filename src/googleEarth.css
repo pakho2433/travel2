@@ -1,0 +1,133 @@
+.google-earth-container,
+.google-earth-map {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.google-earth-container {
+  overflow: hidden;
+  background: #07121f;
+}
+
+.google-earth-map {
+  border: 0;
+}
+
+.map-loading-overlay {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+  padding: 24px;
+  color: #dce9f5;
+  background:
+    radial-gradient(circle at center, rgba(19, 88, 116, 0.45), transparent 48%),
+    #07121f;
+  text-align: center;
+  pointer-events: none;
+}
+
+.map-loading-overlay span {
+  font-size: 2.6rem;
+}
+
+.map-loading-overlay p {
+  margin: 0;
+  font-size: 0.82rem;
+}
+
+.map-error-overlay span {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 124, 115, 0.38);
+  border-radius: 50%;
+  color: #ff9c95;
+  background: rgba(255, 74, 69, 0.12);
+  place-items: center;
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.map-provider-controls {
+  position: absolute;
+  z-index: 8;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  max-width: calc(100% - 24px);
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 14px;
+  background: rgba(3, 12, 21, 0.76);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.map-provider-controls button {
+  min-height: 34px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 10px;
+  color: #9fb4c7;
+  background: transparent;
+  font-size: 0.68rem;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.map-provider-controls button.active {
+  color: #06271f;
+  background: linear-gradient(135deg, #8af3df, #39d6b8);
+}
+
+.map-provider-controls .key-button {
+  width: 34px;
+  padding: 0;
+  color: #d7e5ef;
+  font-size: 1rem;
+}
+
+.google-map-warning {
+  position: absolute;
+  z-index: 8;
+  top: 58px;
+  left: 12px;
+  max-width: calc(100% - 24px);
+  padding: 8px 11px;
+  border: 1px solid rgba(255, 137, 128, 0.3);
+  border-radius: 12px;
+  color: #ffd0cc;
+  background: rgba(92, 27, 27, 0.78);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  font-size: 0.67rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+@media (max-width: 390px) {
+  .map-provider-controls {
+    top: 9px;
+    left: 9px;
+  }
+
+  .map-provider-controls button {
+    min-height: 32px;
+    padding: 0 8px;
+    font-size: 0.62rem;
+  }
+
+  .google-map-warning {
+    top: 52px;
+    left: 9px;
+  }
+}
