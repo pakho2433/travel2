@@ -1,0 +1,218 @@
+.open-earth-globe,
+.open-earth-map,
+.open-earth-map .maplibregl-map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.open-earth-map {
+  overflow: hidden;
+  background: #06111e;
+}
+
+.open-earth-map .maplibregl-canvas {
+  outline: none;
+}
+
+.open-earth-map .maplibregl-ctrl-top-right {
+  top: 54px;
+  right: 10px;
+}
+
+.open-earth-map .maplibregl-ctrl-group {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background: rgba(4, 14, 25, 0.78);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.open-earth-map .maplibregl-ctrl-group button {
+  width: 34px;
+  height: 34px;
+}
+
+.open-earth-map .maplibregl-ctrl-icon {
+  filter: invert(1) opacity(0.82);
+}
+
+.open-earth-map .maplibregl-ctrl-attrib {
+  color: #b8c8d5;
+  background: rgba(3, 12, 20, 0.72);
+}
+
+.earth-map-toolbar {
+  position: absolute;
+  z-index: 8;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 20px);
+  padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 14px;
+  background: rgba(3, 12, 21, 0.78);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.earth-map-toolbar button {
+  min-height: 34px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 10px;
+  color: #06271f;
+  background: linear-gradient(135deg, #8af3df, #39d6b8);
+  font-size: 0.69rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.earth-map-toolbar span {
+  overflow: hidden;
+  padding-right: 7px;
+  color: #d6e5ef;
+  font-size: 0.67rem;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.earth-map-overlay {
+  position: absolute;
+  z-index: 12;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+  padding: 24px;
+  color: #dce9f5;
+  background:
+    radial-gradient(circle at center, rgba(19, 88, 116, 0.48), transparent 48%),
+    #07121f;
+  text-align: center;
+  pointer-events: none;
+}
+
+.earth-map-overlay span {
+  font-size: 2.7rem;
+}
+
+.earth-map-overlay p {
+  margin: 0;
+  font-size: 0.82rem;
+}
+
+.earth-map-error span {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 124, 115, 0.38);
+  border-radius: 50%;
+  color: #ff9c95;
+  background: rgba(255, 74, 69, 0.12);
+  place-items: center;
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.travel-map-marker {
+  position: relative;
+  display: grid;
+  width: 30px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  place-items: start center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.travel-map-marker-glow {
+  position: absolute;
+  top: 3px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: rgba(255, 80, 54, 0.38);
+  filter: blur(7px);
+  animation: markerPulse 1.8s ease-in-out infinite;
+}
+
+.travel-map-marker-pin {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  border: 3px solid #fff2ea;
+  border-radius: 50% 50% 50% 0;
+  background: #ff5b3f;
+  box-shadow: 0 3px 13px rgba(255, 66, 45, 0.75);
+  transform: rotate(-45deg);
+}
+
+.travel-map-marker-pin::after {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: #fff7ef;
+  content: "";
+}
+
+.travel-map-marker-name {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  max-width: 130px;
+  padding: 3px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  color: #f7fbff;
+  background: rgba(4, 15, 25, 0.82);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+}
+
+@keyframes markerPulse {
+  0%, 100% { opacity: 0.48; transform: scale(0.9); }
+  50% { opacity: 0.85; transform: scale(1.25); }
+}
+
+@media (max-width: 390px) {
+  .earth-map-toolbar {
+    top: 8px;
+    left: 8px;
+  }
+
+  .earth-map-toolbar button {
+    min-height: 32px;
+    padding: 0 9px;
+    font-size: 0.64rem;
+  }
+
+  .earth-map-toolbar span {
+    font-size: 0.61rem;
+  }
+
+  .open-earth-map .maplibregl-ctrl-top-right {
+    top: 50px;
+    right: 7px;
+  }
+}
