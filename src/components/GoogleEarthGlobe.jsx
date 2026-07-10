@@ -23,8 +23,16 @@ function loadGoogleMaps(apiKey) {
     script.defer = true
     script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&v=weekly&loading=async&libraries=maps3d&callback=${callbackName}`
 
+    const fail = (message) => {
+      window.clearTimeout(timeout)
+      delete window[callbackName]
+      script.remove()
+      googleMapsLoaderPromise = null
+      reject(new Error(message))
+    }
+
     const timeout = window.setTimeout(() => {
-      reject(new Error('Google Maps took too long to load.'))
+      fail('Google Maps took too long to load.')
     }, 20_000)
 
     window[callbackName] = () => {
@@ -33,13 +41,7 @@ function loadGoogleMaps(apiKey) {
       resolve(window.google)
     }
 
-    script.onerror = () => {
-      window.clearTimeout(timeout)
-      delete window[callbackName]
-      googleMapsLoaderPromise = null
-      reject(new Error('Google Maps script failed to load.'))
-    }
-
+    script.onerror = () => fail('Google Maps script failed to load.')
     document.head.appendChild(script)
   })
 
@@ -47,12 +49,12 @@ function loadGoogleMaps(apiKey) {
 }
 
 export default function GoogleEarthGlobe({ apiKey, places, onSelectPlace, onError }) {
-  const containerRef = useRef(null)
+  const hostRef = useRef(null)
   const [status, setStatus] = useState('loading')
 
   useEffect(() => {
     let cancelled = false
-    const container = containerRef.current
+    const host = hostRef.current
 
     async function initializeMap() {
       try {
@@ -67,7 +69,7 @@ export default function GoogleEarthGlobe({ apiKey, places, onSelectPlace, onErro
           throw new Error('Google 3D Maps is not available for this API key or browser.')
         }
 
-        if (cancelled || !container) return
+        if (cancelled || !host) return
 
         const map = new Map3DElement({
           center: { lat: 20, lng: 10, altitude: 0 },
@@ -91,7 +93,11 @@ export default function GoogleEarthGlobe({ apiKey, places, onSelectPlace, onErro
             extruded: true
           })
 
+          let lastSelectionTime = 0
           const handleSelect = (event) => {
+            const now = Date.now()
+            if (now - lastSelectionTime < 250) return
+            lastSelectionTime = now
             event?.stopPropagation?.()
             onSelectPlace(place)
           }
@@ -101,7 +107,7 @@ export default function GoogleEarthGlobe({ apiKey, places, onSelectPlace, onErro
           map.append(marker)
         })
 
-        container.replaceChildren(map)
+        host.replaceChildren(map)
         setStatus('ready')
       } catch (error) {
         console.error('Google 3D Maps could not be initialized.', error)
@@ -116,12 +122,13 @@ export default function GoogleEarthGlobe({ apiKey, places, onSelectPlace, onErro
 
     return () => {
       cancelled = true
-      container?.replaceChildren()
+      host?.replaceChildren()
     }
   }, [apiKey, places, onError, onSelectPlace])
 
   return (
-    <div className="google-earth-container" ref={containerRef}>
+    <div className="google-earth-container">
+      <div className="google-earth-host" ref={hostRef} />
       {status === 'loading' && (
         <div className="map-loading-overlay" role="status">
           <span>🌍</span>
