@@ -9,18 +9,18 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="旅程私藏">
 <title>旅程私藏</title>
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <div id="lock" class="lock">
   <div class="lock-card">
     <div class="app-icon">✈︎</div>
     <h2>旅程私藏</h2>
-    <p>輸入私人驗證碼，查看所有裝置共用的旅行資料。</p>
+    <p>輸入私人驗證碼，查看已保存的福岡旅行資料。</p>
     <div class="code-wrap"><input id="code" type="password" inputmode="numeric" maxlength="8" placeholder="••••••••" autocomplete="current-password"><button type="button" onclick="toggleCode()" aria-label="顯示或隱藏驗證碼">◉</button></div>
-    <button class="btn primary" type="button" onclick="unlock()">登入並同步</button>
+    <button class="btn primary" type="button" onclick="unlock()">登入旅程</button>
     <div id="loginError" class="login-error"></div>
-    <p class="lock-hint">資料會先加密，再儲存到共用雲端。</p>
+    <p class="lock-hint">資料會先加密，再保存在目前裝置。</p>
   </div>
 </div>
 <div id="toast" class="toast"></div>
@@ -121,7 +121,8 @@
     <div class="notice warn">請妥善保管驗證碼，並定期下載備份。清除共用資料會影響所有使用同一驗證碼的裝置。</div>
   </section>
 </main>
-<script src="/app.js"></script>
-<script src="/seed-fukuoka.js"></script>
+<script src="./local-api-shim.js"></script>
+<script src="./bootstrap-local.js"></script>
+
 </body>
 </html>
