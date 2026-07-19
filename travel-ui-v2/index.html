@@ -16,11 +16,11 @@
   <div class="lock-card">
     <div class="app-icon">✈︎</div>
     <h2>旅程私藏</h2>
-    <p>輸入私人驗證碼，查看已保存的福岡旅行資料。</p>
+    <p>輸入私人驗證碼，查看所有裝置共用的福岡旅行資料。</p>
     <div class="code-wrap"><input id="code" type="password" inputmode="numeric" maxlength="8" placeholder="••••••••" autocomplete="current-password"><button type="button" onclick="toggleCode()" aria-label="顯示或隱藏驗證碼">◉</button></div>
     <button class="btn primary" type="button" onclick="unlock()">登入旅程</button>
     <div id="loginError" class="login-error"></div>
-    <p class="lock-hint">資料會先加密，再保存在目前裝置。</p>
+    <p class="lock-hint">資料會先加密，再同步至共用雲端。</p>
   </div>
 </div>
 <div id="toast" class="toast"></div>
@@ -122,7 +122,7 @@
   </section>
 </main>
 <script src="./local-api-shim.js"></script>
-<script src="./bootstrap-local.js"></script>
-
+<script src="./app.js"></script>
+<script src="./seed-fukuoka.js"></script>
 </body>
 </html>
