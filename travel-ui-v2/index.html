@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#0f766e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="旅程私藏">
+<title>旅程私藏</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div id="lock" class="lock">
+  <div class="lock-card">
+    <div class="app-icon">✈︎</div>
+    <h2>旅程私藏</h2>
+    <p>輸入私人驗證碼，查看所有裝置共用的旅行資料。</p>
+    <div class="code-wrap"><input id="code" type="password" inputmode="numeric" maxlength="8" placeholder="••••••••" autocomplete="current-password"><button type="button" onclick="toggleCode()" aria-label="顯示或隱藏驗證碼">◉</button></div>
+    <button class="btn primary" type="button" onclick="unlock()">登入並同步</button>
+    <div id="loginError" class="login-error"></div>
+    <p class="lock-hint">資料會先加密，再儲存到共用雲端。</p>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+<main class="app">
+  <header class="topbar">
+    <div class="brand"><div class="app-icon">✈︎</div><div><h1>旅程私藏</h1><p id="brandTrip">私人共享旅程規劃</p></div></div>
+    <div class="top-actions"><div class="sync-chip"><i id="syncDot" class="sync-dot"></i><span id="syncText">等待同步</span></div><button class="icon-btn backup-top" type="button" onclick="downloadBackup()" aria-label="下載備份">⇩</button><button class="icon-btn" type="button" onclick="lockNow()" aria-label="鎖定">🔒</button></div>
+  </header>
+  <nav id="nav" class="nav">
+    <button class="active" data-page="home">總覽</button>
+    <button data-page="timeline">行程表</button>
+    <button data-page="add">新增</button>
+    <button data-page="budget">預算</button>
+    <button data-page="final">完成</button>
+    <button data-page="settings">設定</button>
+  </nav>
+
+  <section id="home" class="page active">
+    <div class="hero">
+      <div class="eyebrow">MY PRIVATE JOURNEY</div>
+      <h2 id="heroName">尚未設定旅程</h2>
+      <p id="heroMeta">加入目的地和旅行日期，開始安排你的旅程。</p>
+      <div class="hero-actions"><button type="button" onclick="goPage('add','flights')">＋ 航班</button><button type="button" onclick="goPage('add','hotels')">＋ 酒店</button><button type="button" onclick="goPage('add','plans')">＋ 景點</button><button type="button" onclick="goPage('add','transport')">＋ 交通</button></div>
+    </div>
+    <div class="summary-grid">
+      <div class="summary-card"><div class="icon">📅</div><small>旅程日數</small><b id="statDays">—</b></div>
+      <div class="summary-card"><div class="icon">🧾</div><small>總預算</small><b id="statCost">¥0</b></div>
+      <div class="summary-card next"><div class="icon">⏭</div><small>下一個安排</small><b id="nextTitle">尚未加入安排</b><div id="nextMeta" class="meta">前往「新增」開始規劃</div></div>
+    </div>
+
+    <div class="section-head"><div><h2>快速新增</h2><p>選擇類別，只填寫需要的資料。</p></div></div>
+    <div class="quick-add">
+      <button class="quick-card" type="button" onclick="goPage('add','flights')"><span class="q-icon q-flight">✈️</span><b>航班</b><span>起飛與抵達時間</span></button>
+      <button class="quick-card" type="button" onclick="goPage('add','hotels')"><span class="q-icon q-hotel">🏨</span><b>酒店</b><span>入住與退房資料</span></button>
+      <button class="quick-card" type="button" onclick="goPage('add','plans')"><span class="q-icon q-plan">📍</span><b>景點行程</b><span>景點、餐廳與活動</span></button>
+      <button class="quick-card" type="button" onclick="goPage('add','transport')"><span class="q-icon q-transport">🚆</span><b>交通</b><span>路線、班次與費用</span></button>
+    </div>
+
+    <div class="section-head"><div><h2>旅程資料</h2><p>設定名稱、目的地和日期。</p></div></div>
+    <form id="tripForm" class="card form-grid">
+      <div class="field"><label>旅程名稱</label><input name="name" placeholder="例如：福岡五日自由行"></div>
+      <div class="field"><label>目的地</label><input name="destination" placeholder="例如：福岡，日本"></div>
+      <div class="field"><label>出發日期</label><input name="start" type="date"></div>
+      <div class="field"><label>回程日期</label><input name="end" type="date"></div>
+      <div class="field full"><label>同行者／重要備註</label><textarea name="notes" placeholder="例如：與父母同行、酒店聯絡資料、需要預留休息時間"></textarea></div>
+      <div class="field full"><div class="form-actions"><button class="btn primary" type="submit">儲存旅程資料</button></div></div>
+    </form>
+  </section>
+
+  <section id="timeline" class="page">
+    <div class="section-head"><div><h2>每日行程表</h2><p>所有航班、住宿、景點和交通按時間排列。</p></div><button class="btn soft" type="button" onclick="syncNow(true)">更新資料</button></div>
+    <div id="timelineView" class="timeline"></div>
+    <div class="section-head"><div><h2>分類檢視</h2><p>查看及刪除個別安排。</p></div></div>
+    <div class="type-tabs" id="listTabs"><button class="active" data-list="plans">景點行程</button><button data-list="transport">交通</button><button data-list="flights">航班</button><button data-list="hotels">酒店</button></div>
+    <div id="categoryList" class="list"></div>
+  </section>
+
+  <section id="add" class="page">
+    <div class="section-head"><div><h2>新增安排</h2><p>先選擇類別，表格會自動顯示相應欄位。</p></div></div>
+    <div class="type-tabs" id="addTabs"><button class="active" data-add="plans">📍 景點</button><button data-add="transport">🚆 交通</button><button data-add="flights">✈️ 航班</button><button data-add="hotels">🏨 酒店</button></div>
+    <form id="addForm" class="card form-grid">
+      <input type="hidden" name="entryType" value="plans">
+      <div class="field"><label id="titleLabel">景點／活動名稱</label><input name="title" required placeholder="例如：太宰府天滿宮"></div>
+      <div class="field" id="extraField"><label id="extraLabel">類別</label><select name="extra" id="extraInput"><option>景點</option><option>餐廳</option><option>購物</option><option>活動</option></select></div>
+      <div class="field" id="locationField"><label>地點／地址</label><input name="location" placeholder="可貼上地址或地標"></div>
+      <div class="field hidden" id="fromField"><label>出發地</label><input name="from"></div>
+      <div class="field hidden" id="toField"><label>目的地</label><input name="to"></div>
+      <div class="field"><label id="startLabel">開始時間</label><input name="start" type="datetime-local" required></div>
+      <div class="field"><label id="endLabel">結束時間</label><input name="end" type="datetime-local"></div>
+      <div class="field"><label id="costLabel">金額（円）</label><div class="money-input"><span>¥</span><input name="costYen" type="number" min="0" step="1" placeholder="0"></div></div>
+      <div class="field full"><label>備註</label><textarea name="notes" placeholder="預約編號、月台、注意事項或其他資料"></textarea></div>
+      <div class="field full"><div class="form-actions"><button class="btn" type="reset" onclick="setTimeout(()=>setAddType(currentAddType),0)">清除</button><button id="addSubmit" class="btn primary" type="submit">新增景點行程</button></div></div>
+    </form>
+    <div class="notice">儲存後會立即同步到共用雲端。其他手機重新進入或按「更新資料」即可看到最新內容。</div>
+  </section>
+
+  <section id="budget" class="page">
+    <div class="section-head"><div><h2>旅程預算</h2><p>自動統計所有已輸入的日圓金額。</p></div></div>
+    <div class="budget-grid">
+      <div class="budget-total"><small>預計總支出</small><b id="budgetTotal">¥0</b><div class="meta">包括航班、住宿、景點和交通</div></div>
+      <div class="budget-breakdown"><div class="budget-row"><span>✈️ 航班</span><b id="costFlights">¥0</b></div><div class="budget-row"><span>🏨 酒店</span><b id="costHotels">¥0</b></div><div class="budget-row"><span>📍 景點行程</span><b id="costPlans">¥0</b></div><div class="budget-row"><span>🚆 交通</span><b id="costTransport">¥0</b></div></div>
+    </div>
+    <div class="section-head"><div><h2>費用明細</h2><p>只顯示已填寫金額的項目。</p></div></div>
+    <div id="budgetItems" class="list"></div>
+  </section>
+
+  <section id="final" class="page">
+    <div class="section-head"><div><h2>完整行程檔</h2><p>整理所有資料，下載或儲存為 PDF。</p></div></div>
+    <div class="card"><div class="form-actions" style="justify-content:flex-start"><button class="btn primary" type="button" onclick="finalizeTrip()">完成製作</button><button class="btn" type="button" onclick="downloadFinal()">下載 HTML</button><button class="btn" type="button" onclick="printFinal()">列印／存 PDF</button></div><div id="finalStatus" class="meta" style="margin-top:10px"></div></div>
+    <div id="finalPreview"></div>
+  </section>
+
+  <section id="settings" class="page">
+    <div class="section-head"><div><h2>設定與備份</h2><p>同步、備份及私隱管理。</p></div></div>
+    <div class="card settings-row"><div><h3>雲端同步</h3><p>讀取其他裝置最新儲存的內容。</p></div><button class="btn soft" type="button" onclick="syncNow(true)">立即同步</button></div>
+    <div class="card settings-row"><div><h3>鎖定網站</h3><p>下次進入需要重新輸入驗證碼。</p></div><button class="btn" type="button" onclick="lockNow()">立即鎖定</button></div>
+    <div class="card"><div class="form-actions" style="justify-content:flex-start"><button class="btn primary" type="button" onclick="downloadBackup()">下載 JSON 備份</button><label class="file-btn"><input type="file" accept="application/json" onchange="restoreBackup(event)">復原備份</label><button class="btn danger" type="button" onclick="wipeAll()">清除共用資料</button></div></div>
+    <div class="notice warn">請妥善保管驗證碼，並定期下載備份。清除共用資料會影響所有使用同一驗證碼的裝置。</div>
+  </section>
+</main>
+<script src="/app.js"></script>
+</body>
+</html>
